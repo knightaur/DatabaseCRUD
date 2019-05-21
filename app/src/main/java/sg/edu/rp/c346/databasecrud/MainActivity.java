@@ -19,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
     Button btnAdd, btnEdit, btnRetrieve;
     TextView tvDBContent;
     EditText etContent;
-    ArrayList<String> al;
+    ArrayList<Note> al;
     ListView lv;
-    ArrayAdapter<String> aa;
+    ArrayAdapter<Note> aa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         etContent = findViewById(R.id.etContent);
 
 
-        al = new ArrayList<String>();
+        al = new ArrayList<Note>();
         lv = findViewById(R.id.lv);
-        aa = new ArrayAdapter<String>(this,
+        aa = new ArrayAdapter<Note>(this,
                 android.R.layout.simple_list_item_1, al);
         lv.setAdapter(aa);
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     position, long identity) {
                 Intent i = new Intent(MainActivity.this,
                         EditActivity.class);
-                String data = al.get(position);
+                String data = al.get(position).toString();
                 String id = data.split(",")[0].split(":")[1];
                 String content = data.split(",")[1].trim();
 
@@ -78,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
                 DBHelper dbh = new DBHelper(MainActivity.this);
                 al.clear();
                 String content = etContent.getText().toString();
-                al.addAll(dbh.getAllNotes());
+                al.addAll(dbh.getAllNotes("2"));
                 dbh.close();
 
                 String txt = "";
                 for (int i = 0; i< al.size(); i++){
-                    String tmp = al.get(i);
+                    String tmp = al.get(i).toString();
                     txt += tmp + "\n";
                 }
                 tvDBContent.setText(txt);
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this,
                         EditActivity.class);
 
-                String data = al.get(0);
+                String data = al.get(0).toString();
                 String id = data.split(",")[0].split(":")[1];
                 String content = data.split(",")[1].trim();
 

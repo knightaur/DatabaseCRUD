@@ -79,6 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns= {COLUMN_ID, COLUMN_NOTE_CONTENT};
+
         String condition = COLUMN_NOTE_CONTENT + " Like ?";
         String[] args = { "%" +  keyword + "%"};
         Cursor cursor = db.query(TABLE_NOTE, columns, condition, args,
